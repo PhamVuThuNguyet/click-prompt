@@ -1,4 +1,4 @@
-import styles from "../styles/LoadingOverlay.module.css"; // Import the CSS module
+import styles from "../styles/LoadingOverlay.module.css";
 
 const LoadingOverlay = ({ isLoading }) => {
   return (

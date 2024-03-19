@@ -4,16 +4,30 @@ import { useState } from "react";
 
 import { FiGithub } from "react-icons/fi";
 import LoadingOverlay from "./components/LoadingOverlay";
+import FeedbackForm from "./components/FeedbackForm";
 
 export default function Home() {
   const [inputRequest, setInputRequest] = useState("");
   const [responseStream, setResponseStream] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
 
   const handleInputRequestChange = (e) => {
     setInputRequest(e.target.value);
   };
 
+  const handleOpenFeedbackForm = (e) => {
+    setIsFeedbackFormOpen(!isFeedbackFormOpen);
+  };
+
+  const handleCloseFeedbackForm = () => {
+    setIsFeedbackFormOpen(false);
+  };
+
+  const handleReset = () => {
+    setInputRequest("");
+    setResponseStream("");
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -49,7 +63,6 @@ export default function Home() {
 
           done = doneReading;
           const chunkValue = decoder.decode(value);
-          console.log(chunkValue);
 
           setResponseStream((prev) => prev + chunkValue);
         }
@@ -88,7 +101,7 @@ export default function Home() {
           </div>
 
           <div className="mx-auto mt-4">
-            <button type="submit" className="gen-btn">
+            <button type="submit" className="genBtn">
               Generate
             </button>
           </div>
@@ -106,6 +119,24 @@ export default function Home() {
             readOnly={true}
           ></textarea>
         </div>
+
+        <div className="mx-auto mt-4 text-center">
+          <button onClick={handleOpenFeedbackForm} className="feedbackBtn">
+            Feedback
+          </button>
+
+          <button onClick={handleReset} className="resetBtn">
+            Reset
+          </button>
+        </div>
+
+        {isFeedbackFormOpen && (
+          <FeedbackForm
+            onClose={handleCloseFeedbackForm}
+            inputRequest={inputRequest}
+            outputResponse={responseStream}
+          />
+        )}
       </div>
 
       <a

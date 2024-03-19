@@ -32,6 +32,14 @@ body {
   }
 }
 
-.gen-btn {
+.genBtn {
   @apply inline-block border-2 border-emerald-400 rounded text-neutral-950 text-center uppercase text-lg font-semibold mx-auto px-6 py-2 hover:bg-emerald-500 hover:border-emerald-600 hover:text-white duration-75 active:bg-emerald-600;
+}
+
+.feedbackBtn {
+  @apply inline-block text-center uppercase text-base font-semibold mx-auto px-6 py-2 text-white bg-black rounded mr-8 w-32;
+}
+
+.resetBtn {
+  @apply inline-block text-center uppercase text-base font-semibold mx-auto px-6 py-2 text-black bg-gray-100 border-neutral-700  border-2 rounded w-32;
 }
