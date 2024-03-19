@@ -21,7 +21,6 @@ export async function OpenAIStream(payload) {
                 if (event.type === 'event') {
                     const data = event.data
                     if (data === '[DONE]') {
-                        console.log('Data done. Controller is closing...')
                         controller.close()
                         return
                     }
