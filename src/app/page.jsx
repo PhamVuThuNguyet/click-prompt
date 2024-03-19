@@ -3,10 +3,12 @@
 import { useState } from "react";
 
 import { FiGithub } from "react-icons/fi";
+import LoadingOverlay from "./components/LoadingOverlay";
 
 export default function Home() {
   const [inputRequest, setInputRequest] = useState("");
   const [responseStream, setResponseStream] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputRequestChange = (e) => {
     setInputRequest(e.target.value);
@@ -14,6 +16,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/chat", {
@@ -55,6 +58,8 @@ export default function Home() {
       processStream();
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,6 +93,8 @@ export default function Home() {
             </button>
           </div>
         </form>
+
+        <LoadingOverlay isLoading={isLoading} />
 
         {/* Output FIELD */}
         <div className="mt-8 flex flex-col gap-4 w-[100%] mx-auto">
