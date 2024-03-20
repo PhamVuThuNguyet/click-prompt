@@ -102,7 +102,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen grid place-items-center w-full">
-      <div className="border rounded border-white/0 w-full px-96">
+      <div className="border rounded border-white/0 xl:w-full max-w-full xl:px-96 px-8 xl:py-28 py-10">
         <h1 className="text-center text-2xl md:text-3xl font-bold bg-clip-text">
           Give me a ChatGPT prompt to:
         </h1>
@@ -169,9 +169,8 @@ export default function Home() {
           />
         )}
       </div>
-
       <a
-        className="fixed bottom-0 flex items-center gap-2 pb-2 font-mono text-sm text-neutral-950 transition hover:text-blue-800 sm:m-0"
+        className="bottom-full flex items-center gap-2 pb-2 font-mono text-sm text-neutral-950 transition hover:text-blue-800 sm:m-0"
         href="https://github.com/PhamVuThuNguyet"
         target="_blank"
       >
