@@ -31,6 +31,7 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setResponseStream("");
 
     try {
       const response = await fetch("/api/chat", {
