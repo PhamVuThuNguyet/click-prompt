@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { FiGithub } from "react-icons/fi";
 import LoadingOverlay from "./components/LoadingOverlay";
@@ -11,6 +11,9 @@ export default function Home() {
   const [responseStream, setResponseStream] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
+
+  const controllerRef = useRef(null);
 
   const handleInputRequestChange = (e) => {
     setInputRequest(e.target.value);
@@ -28,10 +31,14 @@ export default function Home() {
     setInputRequest("");
     setResponseStream("");
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setResponseStream("");
+
+    const controller = new AbortController();
+    controllerRef.current = controller;
 
     try {
       const response = await fetch("/api/chat", {
@@ -42,6 +49,8 @@ export default function Home() {
         body: JSON.stringify({
           inputRequest,
         }),
+
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -56,25 +65,39 @@ export default function Home() {
       const reader = data.getReader();
       const decoder = new TextDecoder("utf-8");
 
-      let done = false;
+      const handleStream = async () => {
+        let done = false;
+        setIsStreaming(true);
 
-      const processStream = async () => {
-        while (!done) {
-          const { value, done: doneReading } = await reader.read();
+        try {
+          while (!done) {
+            const { value, done: doneReading } = await reader.read();
 
-          done = doneReading;
-          const chunkValue = decoder.decode(value);
+            done = doneReading;
+            const chunkValue = decoder.decode(value);
 
-          setResponseStream((prev) => prev + chunkValue);
+            setResponseStream((prev) => prev + chunkValue);
+          }
+        } catch (e) {
+          console.log("Break");
+        } finally {
+          setIsStreaming(false);
         }
       };
 
-      processStream();
+      handleStream();
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleStopStreaming = () => {
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+    setIsStreaming(false);
   };
 
   return (
@@ -84,10 +107,7 @@ export default function Home() {
           Give me a ChatGPT prompt to:
         </h1>
 
-        <form
-          onSubmit={handleSubmit}
-          className="mt-6 flex flex-col gap-4 w-[100%] mx-auto"
-        >
+        <form className="mt-6 flex flex-col gap-4 w-[100%] mx-auto">
           {/* INPUT FIELD */}
           <div>
             <textarea
@@ -102,9 +122,19 @@ export default function Home() {
           </div>
 
           <div className="mx-auto mt-4">
-            <button type="submit" className="genBtn">
-              Generate
-            </button>
+            {isStreaming ? (
+              <button
+                type="button"
+                className="resetBtn"
+                onClick={handleStopStreaming}
+              >
+                Cancel
+              </button>
+            ) : (
+              <button type="button" className="genBtn" onClick={handleSubmit}>
+                Generate
+              </button>
+            )}
           </div>
         </form>
 
