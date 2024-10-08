@@ -38,7 +38,7 @@ export async function POST(request) {
 
 
     const payload = {
-        model: 'gpt-4-0125-preview',
+        model: 'gpt-4o',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.3,
         frequency_penalty: 0,

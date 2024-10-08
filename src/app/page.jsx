@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 
-import { FiGithub } from "react-icons/fi";
+import { FiGithub, FiCopy } from "react-icons/fi";
 import LoadingOverlay from "./components/LoadingOverlay";
 import FeedbackForm from "./components/FeedbackForm";
 
@@ -116,6 +116,13 @@ export default function Home() {
     setIsStreaming(false);
   };
 
+  const handleCopy = () => {
+    console.log("Writing");
+    if (responseStream != "") {
+      navigator.clipboard.writeText(responseStream);
+    }
+  };
+
   return (
     <div className="min-h-screen grid place-items-center w-full">
       <div className="border rounded border-white/0 xl:w-full max-w-full xl:px-96 px-8 xl:py-28 py-10">
@@ -158,14 +165,19 @@ export default function Home() {
         <LoadingOverlay isLoading={isLoading} />
 
         {/* Output FIELD */}
-        <div className="mt-8 flex flex-col gap-4 w-[100%] mx-auto">
+        <div className="mt-8 relative w-[100%] mx-auto">
           <textarea
             id="response"
             value={responseStream}
             rows="15"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             readOnly={true}
           ></textarea>
+          <FiCopy
+            size={16}
+            className="absolute cursor-pointer"
+            onClick={handleCopy}
+          />
         </div>
 
         <div className="mx-auto mt-4 text-center">
