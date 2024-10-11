@@ -5,6 +5,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 export default function RootLayout({ children }) {
@@ -13,9 +14,15 @@ export default function RootLayout({ children }) {
       <head>
         <title>Click Prompt - Let's make your AI journey much more easy</title>
         <link rel="icon" href="my-favicon-32x32.png" type="image/x-icon"></link>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4526978327764128"
+          crossorigin="anonymous"
+        ></script>
       </head>
       <body className={`${poppins.className} relative`}>
         <main className="relative z-10 mx-auto">
+          <Toaster position="bottom-center" />
           {children} <Analytics />
         </main>
       </body>
