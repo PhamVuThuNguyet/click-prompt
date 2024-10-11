@@ -35,7 +35,7 @@ const FeedbackForm = ({ onClose, inputRequest, outputResponse }) => {
 
     try {
       const response = await fetch(
-        `https://script.google.com/macros/s/AKfycby4d9j1LFid0M1M-gHl0SrQONSHWAJzMuhh8HeeZAVZMC0PbNAMhWR0LyXNS-5FMfoc/exec?${queryParams}`,
+        `https://script.google.com/macros/s/AKfycbw36mt9elAhfgtjt-nQk4HZ4PQAy1g635RWowWVrWgLLRZ2W-wMbxHjKRPKSLrCaH7nBg/exec?${queryParams}`,
         {
           method: "GET",
         }
