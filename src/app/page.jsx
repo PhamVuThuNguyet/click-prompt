@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { FiGithub, FiCopy } from "react-icons/fi";
 import LoadingOverlay from "./components/LoadingOverlay";
 import FeedbackForm from "./components/FeedbackForm";
+import { toast } from "react-hot-toast";
 
 export default function Home() {
   const [inputRequest, setInputRequest] = useState("");
@@ -120,6 +121,7 @@ export default function Home() {
     console.log("Writing");
     if (responseStream != "") {
       navigator.clipboard.writeText(responseStream);
+      toast.success("Response Copied!");
     }
   };
 
